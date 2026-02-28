@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root,
+html,
+body {
+  --primary: #0ea5e9;
+  --background: #0f172a;
+  --foreground: #f8fafc;
+  --rk-colors-modalBackdrop: rgba(0, 0, 0, 0.75) !important;
+  --rk-blurs-modalOverlay: 24px !important;
+}
+
+/* Оверлей модалки RainbowKit — полупрозрачный фон + размытие */
+._9pm4ki3,
+.ju367vb3,
+[data-rk] ._9pm4ki3,
+[data-rk] .ju367vb3 {
+  background: rgba(0, 0, 0, 0.75) !important;
+  -webkit-backdrop-filter: blur(24px) !important;
+  backdrop-filter: blur(24px) !important;
+}
+
+body {
+  color: var(--foreground);
+  background: url('/depiction/back.png') no-repeat center center fixed;
+  background-size: cover;
+}
+
+[data-testid="rk-connect-button"] {
+  background: #64748b !important;
+  color: white !important;
+}
+[data-testid="rk-connect-button"]:hover {
+  background: #0ea5e9 !important;
+}
+
