@@ -2,9 +2,31 @@
 
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Link from "next/link";
+import { useState, useEffect, useRef } from "react";
+import { useAccount, useBalance, useDisconnect } from "wagmi";
+import { AddressAvatar } from "./AddressAvatar";
 
-const btnClass =
-  "flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-800/80 text-white/90 backdrop-blur-sm border border-white/10 hover:bg-slate-700/90 hover:border-white/15 transition-all duration-200 text-sm font-medium";
+const BTN_CLASS =
+  "flex items-center gap-2 px-4 py-2 rounded-xl bg-black/40 backdrop-blur-md border border-white/10 text-white/90 hover:bg-black/50 hover:border-white/20 transition-all";
+
+function CopyIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+    </svg>
+  );
+}
+
+function DisconnectIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+      <polyline points="16 17 21 12 16 7" />
+      <line x1="21" y1="12" x2="9" y2="12" />
+    </svg>
+  );
+}
 
 export function Nav() {
   return (
@@ -19,7 +41,6 @@ export function Nav() {
         {({
           account,
           chain,
-          openAccountModal,
           openChainModal,
           openConnectModal,
           mounted,
@@ -27,80 +48,20 @@ export function Nav() {
           const ready = mounted;
           const connected = ready && account && chain;
 
-          if (!ready) {
-            return (
-              <div className="h-10 w-32 bg-slate-800/50 rounded-xl animate-pulse" />
-            );
-          }
-
-          if (!connected) {
-            return (
-              <button onClick={openConnectModal} className={btnClass}>
-                Connect Wallet
-              </button>
-            );
-          }
-
-          if (chain?.unsupported) {
-            return (
-              <button onClick={openChainModal} className={btnClass}>
-                Wrong network
-              </button>
-            );
-          }
-
           return (
             <div className="flex items-center gap-2">
-              <button onClick={openChainModal} className={btnClass}>
-                {chain?.hasIcon && chain.iconUrl && (
-                  <img
-                    alt={chain.name ?? "Chain"}
-                    src={chain.iconUrl}
-                    className="w-5 h-5 rounded-full"
-                  />
-                )}
-                <span>{chain?.name ?? "Unknown"}</span>
-                <svg
-                  className="w-4 h-4 opacity-70"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </button>
-              {/* Кнопка баланса + акаунта объединены */}
-              <button onClick={openAccountModal} className={btnClass}>
-                <PastelAvatar address={account.address} size={24} />
-                <span className="flex flex-col items-start">
-                  {account.displayBalance && (
-                    <span className="text-white/90 text-xs leading-tight">
-                      {account.displayBalance}
-                    </span>
-                  )}
-                  <span className="text-white/80 text-xs leading-tight max-w-[90px] truncate">
-                    {account.displayName}
-                  </span>
-                </span>
-                <svg
-                  className="w-4 h-4 opacity-70 shrink-0"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </button>
+              {!connected ? (
+                <button onClick={openConnectModal} className={BTN_CLASS}>
+                  Connect Wallet
+                </button>
+              ) : (
+                <>
+                  <button onClick={openChainModal} className={BTN_CLASS}>
+                    {chain?.name ?? "Wrong network"}
+                  </button>
+                  <AccountButton account={account} chainId={chain?.id} />
+                </>
+              )}
             </div>
           );
         }}
@@ -109,29 +70,87 @@ export function Nav() {
   );
 }
 
-const PASTEL_COLORS = [
-  "#b8d4e8",
-  "#e8d4b8",
-  "#d4e8d4",
-  "#e8d4e8",
-  "#d4d4e8",
-  "#e8e8d4",
-  "#d8e8f0",
-  "#f0e8d8",
-];
+function AccountButton({
+  account,
+  chainId,
+}: {
+  account: { address: string; displayName: string };
+  chainId?: number;
+}) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const { data: balance } = useBalance({
+    address: account.address as `0x${string}`,
+  });
+  const { disconnect } = useDisconnect();
 
-function PastelAvatar({ address, size }: { address: string; size: number }) {
-  const hash = address
-    .split("")
-    .reduce((acc, char) => acc + char.charCodeAt(0), 0);
-  const color = PASTEL_COLORS[hash % PASTEL_COLORS.length];
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    }
+    if (open) document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [open]);
+
+  const shortAddr = `${account.address.slice(0, 6)}...${account.address.slice(-4)}`;
+  const balanceStr = balance?.formatted
+    ? `${parseFloat(balance.formatted).toFixed(1)} ${balance.symbol}`
+    : "";
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(account.address);
+    setOpen(false);
+  };
+
+  const handleDisconnect = () => {
+    disconnect();
+    setOpen(false);
+  };
 
   return (
-    <div
-      className="rounded-full ring-2 ring-white/20 shrink-0 flex items-center justify-center text-slate-600 text-[10px] font-medium"
-      style={{ width: size, height: size, backgroundColor: color }}
-    >
-      {address.slice(2, 4).toUpperCase()}
+    <div ref={ref} className="relative">
+      <button
+        onClick={() => setOpen(!open)}
+        className={BTN_CLASS}
+      >
+        <span className="hidden sm:inline">{balanceStr}</span>
+        <AddressAvatar address={account.address} size="sm" />
+        <span>{shortAddr}</span>
+      </button>
+      {open && (
+        <div className="absolute right-0 top-full mt-2 min-w-[260px] rounded-2xl bg-black/60 backdrop-blur-xl border border-white/10 shadow-2xl overflow-hidden">
+          <div className="p-5 text-center">
+            <p className="text-xs font-medium text-white/60 uppercase tracking-wider mb-3">
+              Account
+            </p>
+            <div className="flex justify-center mb-3">
+              <AddressAvatar address={account.address} size="lg" />
+            </div>
+            <p className="font-mono font-semibold text-white text-sm">
+              {shortAddr}
+            </p>
+            <p className="text-white/60 text-sm mt-1">{balanceStr}</p>
+          </div>
+          <div className="flex border-t border-white/10">
+            <button
+              onClick={handleCopy}
+              className="flex-1 py-3 px-4 text-sm text-white/80 hover:bg-white/5 transition flex items-center justify-center gap-2"
+            >
+              <CopyIcon />
+              Copy address
+            </button>
+            <button
+              onClick={handleDisconnect}
+              className="flex-1 py-3 px-4 text-sm text-white/80 hover:bg-white/5 transition flex items-center justify-center gap-2 border-l border-white/10"
+            >
+              <DisconnectIcon />
+              Disconnect
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
