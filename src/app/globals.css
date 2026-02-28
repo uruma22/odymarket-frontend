@@ -28,11 +28,23 @@ body {
   background-size: cover;
 }
 
-[data-testid="rk-connect-button"] {
-  background: #64748b !important;
-  color: white !important;
+/* RainbowKit modal — улучшенный дизайн */
+[data-rk] [data-rk-profile-dialog] {
+  background: rgba(30, 41, 59, 0.95) !important;
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
 }
-[data-testid="rk-connect-button"]:hover {
-  background: #0ea5e9 !important;
+
+/* Кнопки в модалке (Скопировать, Отключить) — полупрозрачные, темнеют при наведении */
+[data-rk] [data-rk-profile-dialog] button[role="menuitem"],
+[data-rk] [data-rk-profile-action] {
+  background: rgba(71, 85, 105, 0.5) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.2s ease;
+}
+[data-rk] [data-rk-profile-dialog] button[role="menuitem"]:hover,
+[data-rk] [data-rk-profile-action]:hover {
+  background: rgba(51, 65, 85, 0.95) !important;
 }
 

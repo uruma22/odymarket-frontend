@@ -4,6 +4,7 @@ import { WagmiProvider } from "wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RainbowKitProvider, darkTheme } from "@rainbow-me/rainbowkit";
 import { config } from "@/config/wagmi";
+import { CustomAvatar } from "@/components/CustomAvatar";
 import "@rainbow-me/rainbowkit/styles.css";
 import "./globals.css";
 
@@ -19,7 +20,10 @@ const customTheme = {
   ...rainbowTheme,
   colors: {
     ...rainbowTheme.colors,
-    modalBackdrop: "rgba(0, 0, 0, 0.6)",
+    modalBackdrop: "rgba(0, 0, 0, 0.7)",
+    modalBackground: "rgba(30, 41, 59, 0.95)",
+    profileAction: "rgba(71, 85, 105, 0.5)",
+    profileActionHover: "rgba(51, 65, 85, 0.9)",
   },
   blurs: {
     ...rainbowTheme.blurs,
@@ -37,7 +41,7 @@ export default function RootLayout({
       <body>
         <WagmiProvider config={config}>
           <QueryClientProvider client={queryClient}>
-            <RainbowKitProvider theme={customTheme}>
+            <RainbowKitProvider theme={customTheme} avatar={CustomAvatar}>
               {children}
             </RainbowKitProvider>
           </QueryClientProvider>
