@@ -120,7 +120,7 @@ function AccountButton({
         <span>{shortAddr}</span>
       </button>
       {open && (
-        <div className="absolute right-0 top-full mt-2 min-w-[260px] rounded-2xl bg-black/60 backdrop-blur-xl border border-white/10 shadow-2xl overflow-hidden">
+        <div className="absolute right-0 top-full mt-2 min-w-[260px] rounded-2xl bg-[rgb(15,23,42)] border border-white/10 shadow-2xl overflow-hidden">
           <div className="p-5 text-center">
             <p className="text-xs font-medium text-white/60 uppercase tracking-wider mb-3">
               Account

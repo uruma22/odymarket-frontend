@@ -13,17 +13,19 @@ const rainbowTheme = darkTheme({
   accentColor: "#0ea5e9",
   accentColorForeground: "white",
   borderRadius: "medium",
+  overlayBlur: "large",
 });
 
 const customTheme = {
   ...rainbowTheme,
   colors: {
     ...rainbowTheme.colors,
-    modalBackdrop: "rgba(0, 0, 0, 0.6)",
+    modalBackdrop: "transparent",
+    modalBackground: "rgb(15, 23, 42)",
   },
   blurs: {
     ...rainbowTheme.blurs,
-    modalOverlay: "20px",
+    modalOverlay: "24px",
   },
 };
 
