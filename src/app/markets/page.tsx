@@ -5,7 +5,7 @@ import { Nav } from "@/components/Nav";
 import { useMarkets } from "@/hooks/useMarkets";
 
 export default function MarketsPage() {
-  const { data: markets = [], isLoading } = useMarkets();
+  const { data: markets = [], isLoading, isError, error } = useMarkets();
 
   return (
     <div className="min-h-screen">
@@ -16,6 +16,11 @@ export default function MarketsPage() {
 
         {isLoading ? (
           <div className="text-slate-400">Loading markets...</div>
+        ) : isError ? (
+          <div className="text-amber-400 p-8 rounded-xl bg-slate-800/30 border border-amber-500/50">
+            Failed to load markets. Check NEXT_PUBLIC_BACKEND_URL in Vercel env.
+            <pre className="mt-2 text-sm text-slate-400 overflow-auto">{String(error?.message)}</pre>
+          </div>
         ) : markets.length === 0 ? (
           <div className="text-slate-400 p-8 rounded-xl bg-slate-800/30 border border-slate-700">
             No markets yet. Deploy the contracts and create a market via MarketFactory.
