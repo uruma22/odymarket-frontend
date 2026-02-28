@@ -59,7 +59,7 @@ export function TradePanel({ marketAddress, marketId, isResolved }: Props) {
   const handleBuy = async () => {
     if (!address || !amount) return;
     const amt = BigInt(Math.floor(parseFloat(amount) * 1e6));
-    const maxCost = (amt * 105n) / 100n; // 5% slippage (max 1.05 per share)
+    const maxCost = (amt * BigInt(105)) / BigInt(100); // 5% slippage (max 1.05 per share)
     await approve({
       address: USDC_ADDRESS,
       abi: ERC20_ABI,
@@ -77,7 +77,7 @@ export function TradePanel({ marketAddress, marketId, isResolved }: Props) {
   const handleSell = async () => {
     if (!address || !amount) return;
     const amt = BigInt(parseFloat(amount) * 1e6);
-    const minReturn = 0n;
+    const minReturn = BigInt(0);
     await sellShares({
       address: marketAddress as `0x${string}`,
       abi: MARKET_ABI,
