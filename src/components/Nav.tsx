@@ -4,7 +4,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Link from "next/link";
 
 const btnClass =
-  "flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 text-white/90 backdrop-blur-sm border border-white/10 hover:bg-white/20 hover:border-white/20 transition-all duration-200 text-sm font-medium";
+  "flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-800/80 text-white/90 backdrop-blur-sm border border-white/10 hover:bg-slate-700/90 hover:border-white/15 transition-all duration-200 text-sm font-medium";
 
 export function Nav() {
   return (
@@ -29,7 +29,7 @@ export function Nav() {
 
           if (!ready) {
             return (
-              <div className="h-10 w-32 bg-white/5 rounded-xl animate-pulse" />
+              <div className="h-10 w-32 bg-slate-800/50 rounded-xl animate-pulse" />
             );
           }
 
@@ -74,20 +74,21 @@ export function Nav() {
                   />
                 </svg>
               </button>
+              {/* Кнопка баланса + акаунта объединены */}
               <button onClick={openAccountModal} className={btnClass}>
-                {account.displayBalance && (
-                  <span className="text-white/90">
-                    {account.displayBalance}
+                <PastelAvatar address={account.address} size={24} />
+                <span className="flex flex-col items-start">
+                  {account.displayBalance && (
+                    <span className="text-white/90 text-xs leading-tight">
+                      {account.displayBalance}
+                    </span>
+                  )}
+                  <span className="text-white/80 text-xs leading-tight max-w-[90px] truncate">
+                    {account.displayName}
                   </span>
-                )}
-              </button>
-              <button onClick={openAccountModal} className={btnClass}>
-                <CustomAvatarImg address={account.address} size={24} />
-                <span className="max-w-[80px] truncate">
-                  {account.displayName}
                 </span>
                 <svg
-                  className="w-4 h-4 opacity-70"
+                  className="w-4 h-4 opacity-70 shrink-0"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -108,27 +109,29 @@ export function Nav() {
   );
 }
 
-function CustomAvatarImg({
-  address,
-  size,
-}: {
-  address: string;
-  size: number;
-}) {
-  const AVATAR_STYLES = ["bottts", "avataaars", "lorelei"];
+const PASTEL_COLORS = [
+  "#b8d4e8",
+  "#e8d4b8",
+  "#d4e8d4",
+  "#e8d4e8",
+  "#d4d4e8",
+  "#e8e8d4",
+  "#d8e8f0",
+  "#f0e8d8",
+];
+
+function PastelAvatar({ address, size }: { address: string; size: number }) {
   const hash = address
     .split("")
     .reduce((acc, char) => acc + char.charCodeAt(0), 0);
-  const style = AVATAR_STYLES[hash % AVATAR_STYLES.length];
-  const src = `https://api.dicebear.com/7.x/${style}/svg?seed=${address}&backgroundColor=b6e3f4,c0aede,d1d4f9`;
+  const color = PASTEL_COLORS[hash % PASTEL_COLORS.length];
 
   return (
-    <img
-      src={src}
-      width={size}
-      height={size}
-      alt=""
-      className="rounded-full ring-2 ring-white/20"
-    />
+    <div
+      className="rounded-full ring-2 ring-white/20 shrink-0 flex items-center justify-center text-slate-600 text-[10px] font-medium"
+      style={{ width: size, height: size, backgroundColor: color }}
+    >
+      {address.slice(2, 4).toUpperCase()}
+    </div>
   );
 }

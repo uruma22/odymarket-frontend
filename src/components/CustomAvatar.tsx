@@ -2,12 +2,23 @@
 
 import type { AvatarComponent } from "@rainbow-me/rainbowkit";
 
-// DiceBear styles: bottts (3D robots), avataaars (cartoon), lorelei (illustrated)
-const AVATAR_STYLES = ["bottts", "avataaars", "lorelei"] as const;
+// Приятные пастельные цвета
+const PASTEL_COLORS = [
+  "#b8d4e8", // голубой
+  "#e8d4b8", // песочный
+  "#d4e8d4", // мятный
+  "#e8d4e8", // лавандовый
+  "#d4d4e8", // сиреневый
+  "#e8e8d4", // кремовый
+  "#d8e8f0", // небесный
+  "#f0e8d8", // персиковый
+];
 
-function getStyleFromAddress(address: string): (typeof AVATAR_STYLES)[number] {
-  const hash = address.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0);
-  return AVATAR_STYLES[hash % AVATAR_STYLES.length];
+function getColorFromAddress(address: string): string {
+  const hash = address
+    .split("")
+    .reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  return PASTEL_COLORS[hash % PASTEL_COLORS.length];
 }
 
 export const CustomAvatar: AvatarComponent = ({ address, ensImage, size }) => {
@@ -24,17 +35,18 @@ export const CustomAvatar: AvatarComponent = ({ address, ensImage, size }) => {
     );
   }
 
-  const style = getStyleFromAddress(address);
-  const src = `https://api.dicebear.com/7.x/${style}/svg?seed=${address}&backgroundColor=b6e3f4,c0aede,d1d4f9`;
+  const color = getColorFromAddress(address);
 
   return (
-    <img
-      src={src}
-      width={size}
-      height={size}
-      alt="Avatar"
-      className="rounded-full object-cover ring-2 ring-white/30 shadow-lg"
-      style={{ width: size, height: size }}
-    />
+    <div
+      className="rounded-full ring-2 ring-white/20 flex items-center justify-center text-slate-600 text-xs font-medium"
+      style={{
+        width: size,
+        height: size,
+        backgroundColor: color,
+      }}
+    >
+      {address.slice(2, 4).toUpperCase()}
+    </div>
   );
 };

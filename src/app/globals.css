@@ -28,23 +28,28 @@ body {
   background-size: cover;
 }
 
-/* RainbowKit modal — улучшенный дизайн */
-[data-rk] [data-rk-profile-dialog] {
-  background: rgba(30, 41, 59, 0.95) !important;
+/* RainbowKit — тёмный стиль всех модалок */
+[data-rk] [data-rk-dialog],
+[data-rk] [data-rk-profile-dialog],
+[data-rk] [role="dialog"] {
+  background: rgba(15, 23, 42, 0.98) !important;
   backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
 }
 
-/* Кнопки в модалке (Скопировать, Отключить) — полупрозрачные, темнеют при наведении */
+[data-rk] [data-rk-connect-options] {
+  background: rgba(15, 23, 42, 0.5) !important;
+}
+
 [data-rk] [data-rk-profile-dialog] button[role="menuitem"],
 [data-rk] [data-rk-profile-action] {
-  background: rgba(71, 85, 105, 0.5) !important;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(51, 65, 85, 0.6) !important;
+  border: 1px solid rgba(255, 255, 255, 0.06);
   transition: all 0.2s ease;
 }
 [data-rk] [data-rk-profile-dialog] button[role="menuitem"]:hover,
 [data-rk] [data-rk-profile-action]:hover {
-  background: rgba(51, 65, 85, 0.95) !important;
+  background: rgba(30, 41, 59, 0.95) !important;
 }
 
