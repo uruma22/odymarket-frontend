@@ -96,17 +96,17 @@ export function TradePanel({ marketAddress, marketId, isResolved }: Props) {
 
   if (!address) {
     return (
-      <div className="p-6 rounded-xl bg-white/70 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700">
+      <div className="p-6 rounded-xl bg-white/70 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
         <p className="text-slate-600 dark:text-slate-400">Connect wallet to trade</p>
       </div>
     );
   }
 
-  const btnBase = "px-4 py-2 rounded-lg bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-white";
+  const btnBase = "px-4 py-2 rounded-lg bg-slate-200 dark:bg-slate-800 dark:border dark:border-slate-700 text-slate-800 dark:text-slate-200";
 
   return (
-    <div className="p-6 rounded-xl bg-white/70 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 space-y-6">
-      <h3 className="font-semibold text-lg text-slate-900 dark:text-white">Trade</h3>
+    <div className="p-6 rounded-xl bg-white/70 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 space-y-6">
+      <h3 className="font-semibold text-lg text-slate-900 dark:text-slate-200">Trade</h3>
 
       <div className="flex gap-2 text-sm">
         <button
@@ -143,7 +143,7 @@ export function TradePanel({ marketAddress, marketId, isResolved }: Props) {
 
       <div>
         <p className="text-slate-600 dark:text-slate-400 text-sm mb-2">Your shares</p>
-        <p className="text-slate-800 dark:text-white">YES: {formatPrice(userYesShares)} | NO: {formatPrice(userNoShares)}</p>
+        <p className="text-slate-800 dark:text-slate-200">YES: {formatPrice(userYesShares)} | NO: {formatPrice(userNoShares)}</p>
       </div>
 
       {!isResolved && (

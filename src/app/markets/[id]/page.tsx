@@ -14,7 +14,7 @@ export default function MarketPage() {
   if (isLoading) {
     return (
       <div className="min-h-screen relative flex items-center justify-center">
-        <div className="fixed inset-0 bg-white/40 dark:bg-background/30 backdrop-blur-xl -z-10" aria-hidden />
+        <div className="fixed inset-0 bg-white/40 dark:bg-slate-900/80 backdrop-blur-xl -z-10" aria-hidden />
         <div className="text-slate-600 dark:text-slate-400">Loading...</div>
       </div>
     );
@@ -23,7 +23,7 @@ export default function MarketPage() {
   if (!market) {
     return (
       <div className="min-h-screen relative flex items-center justify-center">
-        <div className="fixed inset-0 bg-white/40 dark:bg-background/30 backdrop-blur-xl -z-10" aria-hidden />
+        <div className="fixed inset-0 bg-white/40 dark:bg-slate-900/80 backdrop-blur-xl -z-10" aria-hidden />
         <div className="text-slate-600 dark:text-slate-400">Market not found</div>
       </div>
     );
@@ -39,12 +39,12 @@ export default function MarketPage() {
           ← Back to markets
         </Link>
 
-        <h1 className="text-2xl font-bold mb-6 text-slate-900 dark:text-white">{market.question}</h1>
+        <h1 className="text-2xl font-bold mb-6 text-slate-900 dark:text-slate-200">{market.question}</h1>
 
         <div className="grid lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-4">
-            <div className="p-6 rounded-xl bg-white/70 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700">
-              <h3 className="font-semibold mb-4 text-slate-900 dark:text-white">Market info</h3>
+            <div className="p-6 rounded-xl bg-white/70 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+              <h3 className="font-semibold mb-4 text-slate-900 dark:text-slate-200">Market info</h3>
               <div className="space-y-2 text-slate-600 dark:text-slate-400">
                 <p>Status: {market.status}</p>
                 <p>Expiration: {new Date(market.expiration).toLocaleString()}</p>
