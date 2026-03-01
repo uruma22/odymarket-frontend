@@ -34,7 +34,7 @@ export function Nav() {
     <nav className="sticky top-0 z-50 px-6 py-2 flex justify-between items-center bg-white/60 dark:bg-slate-800 backdrop-blur-xl border-b border-slate-200 dark:border-slate-700">
       <Link
         href="/"
-        className="text-2xl font-bold tracking-tight text-slate-800 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white transition"
+        className="nav-logo text-2xl hover:opacity-95 transition-opacity"
       >
         Prediction markets on Web 3
       </Link>
