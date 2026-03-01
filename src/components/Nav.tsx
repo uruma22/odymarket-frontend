@@ -5,9 +5,10 @@ import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import { useAccount, useBalance, useDisconnect } from "wagmi";
 import { AddressAvatar } from "./AddressAvatar";
+import { ThemeToggle } from "./ThemeToggle";
 
 const BTN_CLASS =
-  "flex items-center gap-2 px-4 py-2 rounded-xl bg-black/40 backdrop-blur-md border border-white/10 text-white/90 hover:bg-black/50 hover:border-white/20 transition-all";
+  "flex items-center gap-2 px-4 py-2 rounded-xl backdrop-blur-md transition-all bg-slate-200/80 border border-slate-300 text-slate-800 hover:bg-slate-300/80 dark:bg-black/40 dark:border-white/10 dark:text-white/90 dark:hover:bg-black/50 dark:hover:border-white/20";
 
 function CopyIcon() {
   return (
@@ -30,14 +31,16 @@ function DisconnectIcon() {
 
 export function Nav() {
   return (
-    <nav className="sticky top-0 z-50 px-6 py-2 flex justify-between items-center bg-white/5 backdrop-blur-xl border-b border-white/10">
+    <nav className="sticky top-0 z-50 px-6 py-2 flex justify-between items-center bg-white/60 dark:bg-white/5 backdrop-blur-xl border-b border-slate-200 dark:border-white/10">
       <Link
         href="/"
-        className="text-2xl font-bold tracking-tight text-white/70 hover:text-white/90 transition"
+        className="text-2xl font-bold tracking-tight text-slate-800 dark:text-white/70 hover:text-slate-900 dark:hover:text-white/90 transition"
       >
         Prediction markets on Web 3
       </Link>
-      <ConnectButton.Custom>
+      <div className="flex items-center gap-2">
+        <ThemeToggle />
+        <ConnectButton.Custom>
         {({
           account,
           chain,
@@ -49,7 +52,7 @@ export function Nav() {
           const connected = ready && account && chain;
 
           return (
-            <div className="flex items-center gap-2">
+            <>
               {!connected ? (
                 <button onClick={openConnectModal} className={BTN_CLASS}>
                   Connect Wallet
@@ -62,10 +65,11 @@ export function Nav() {
                   <AccountButton account={account} chainId={chain?.id} />
                 </>
               )}
-            </div>
+            </>
           );
         }}
       </ConnectButton.Custom>
+      </div>
     </nav>
   );
 }
@@ -120,30 +124,30 @@ function AccountButton({
         <span>{shortAddr}</span>
       </button>
       {open && (
-        <div className="absolute right-0 top-full mt-2 min-w-[260px] rounded-2xl bg-[rgb(15,23,42)] border border-white/10 shadow-2xl overflow-hidden">
+        <div className="absolute right-0 top-full mt-2 min-w-[260px] rounded-2xl bg-white dark:bg-[rgb(15,23,42)] border border-slate-200 dark:border-white/10 shadow-2xl overflow-hidden">
           <div className="p-5 text-center">
-            <p className="text-xs font-medium text-white/60 uppercase tracking-wider mb-3">
+            <p className="text-xs font-medium text-slate-500 dark:text-white/60 uppercase tracking-wider mb-3">
               Account
             </p>
             <div className="flex justify-center mb-3">
               <AddressAvatar address={account.address} size="lg" />
             </div>
-            <p className="font-mono font-semibold text-white text-sm">
+            <p className="font-mono font-semibold text-slate-900 dark:text-white text-sm">
               {shortAddr}
             </p>
-            <p className="text-white/60 text-sm mt-1">{balanceStr}</p>
+            <p className="text-slate-600 dark:text-white/60 text-sm mt-1">{balanceStr}</p>
           </div>
-          <div className="flex border-t border-white/10">
+          <div className="flex border-t border-slate-200 dark:border-white/10">
             <button
               onClick={handleCopy}
-              className="flex-1 py-3 px-4 text-sm text-white/80 hover:bg-white/5 transition flex items-center justify-center gap-2"
+              className="flex-1 py-3 px-4 text-sm text-slate-700 dark:text-white/80 hover:bg-slate-100 dark:hover:bg-white/5 transition flex items-center justify-center gap-2"
             >
               <CopyIcon />
               Copy address
             </button>
             <button
               onClick={handleDisconnect}
-              className="flex-1 py-3 px-4 text-sm text-white/80 hover:bg-white/5 transition flex items-center justify-center gap-2 border-l border-white/10"
+              className="flex-1 py-3 px-4 text-sm text-slate-700 dark:text-white/80 hover:bg-slate-100 dark:hover:bg-white/5 transition flex items-center justify-center gap-2 border-l border-slate-200 dark:border-white/10"
             >
               <DisconnectIcon />
               Disconnect

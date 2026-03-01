@@ -4,6 +4,7 @@ import { WagmiProvider } from "wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RainbowKitProvider, darkTheme } from "@rainbow-me/rainbowkit";
 import { config } from "@/config/wagmi";
+import { ThemeProvider } from "@/contexts/ThemeContext";
 import "@rainbow-me/rainbowkit/styles.css";
 import "./globals.css";
 
@@ -35,13 +36,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){var t=localStorage.getItem('theme');document.documentElement.classList.toggle('dark',t!=='light');})();`,
+          }}
+        />
+      </head>
       <body>
         <WagmiProvider config={config}>
           <QueryClientProvider client={queryClient}>
-            <RainbowKitProvider theme={customTheme}>
-              {children}
-            </RainbowKitProvider>
+            <ThemeProvider>
+              <RainbowKitProvider theme={customTheme}>
+                {children}
+              </RainbowKitProvider>
+            </ThemeProvider>
           </QueryClientProvider>
         </WagmiProvider>
       </body>

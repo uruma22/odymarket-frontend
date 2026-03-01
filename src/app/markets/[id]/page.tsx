@@ -14,8 +14,8 @@ export default function MarketPage() {
   if (isLoading) {
     return (
       <div className="min-h-screen relative flex items-center justify-center">
-        <div className="fixed inset-0 bg-background/30 backdrop-blur-xl -z-10" aria-hidden />
-        <div className="text-slate-400">Loading...</div>
+        <div className="fixed inset-0 bg-white/40 dark:bg-background/30 backdrop-blur-xl -z-10" aria-hidden />
+        <div className="text-slate-600 dark:text-slate-400">Loading...</div>
       </div>
     );
   }
@@ -23,15 +23,15 @@ export default function MarketPage() {
   if (!market) {
     return (
       <div className="min-h-screen relative flex items-center justify-center">
-        <div className="fixed inset-0 bg-background/30 backdrop-blur-xl -z-10" aria-hidden />
-        <div className="text-slate-400">Market not found</div>
+        <div className="fixed inset-0 bg-white/40 dark:bg-background/30 backdrop-blur-xl -z-10" aria-hidden />
+        <div className="text-slate-600 dark:text-slate-400">Market not found</div>
       </div>
     );
   }
 
   return (
     <div className="min-h-screen relative">
-      <div className="fixed inset-0 bg-background/30 backdrop-blur-xl -z-10" aria-hidden />
+      <div className="fixed inset-0 bg-white/40 dark:bg-background/30 backdrop-blur-xl -z-10" aria-hidden />
       <Nav />
 
       <main className="max-w-6xl mx-auto px-6 py-12">
@@ -39,13 +39,13 @@ export default function MarketPage() {
           ← Back to markets
         </Link>
 
-        <h1 className="text-2xl font-bold mb-6">{market.question}</h1>
+        <h1 className="text-2xl font-bold mb-6 text-slate-900 dark:text-white">{market.question}</h1>
 
         <div className="grid lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-4">
-            <div className="p-6 rounded-xl bg-slate-800/50 border border-slate-700">
-              <h3 className="font-semibold mb-4">Market info</h3>
-              <div className="space-y-2 text-slate-400">
+            <div className="p-6 rounded-xl bg-white/70 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700">
+              <h3 className="font-semibold mb-4 text-slate-900 dark:text-white">Market info</h3>
+              <div className="space-y-2 text-slate-600 dark:text-slate-400">
                 <p>Status: {market.status}</p>
                 <p>Expiration: {new Date(market.expiration).toLocaleString()}</p>
                 <p>Contract: {market.contractAddr}</p>

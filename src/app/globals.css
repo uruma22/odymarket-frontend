@@ -30,6 +30,11 @@ body {
   background-size: cover;
 }
 
+/* Light theme overrides */
+html:not(.dark) body {
+  --foreground: #1e293b;
+}
+
 [data-testid="rk-connect-button"] {
   background: #64748b !important;
   color: white !important;
