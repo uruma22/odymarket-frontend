@@ -31,7 +31,7 @@ export default function MarketPage() {
 
   return (
     <div className="min-h-screen relative">
-      <div className="fixed inset-0 bg-white/40 dark:bg-background/30 backdrop-blur-xl -z-10" aria-hidden />
+      <div className="fixed inset-0 bg-white/40 dark:bg-slate-900/80 backdrop-blur-xl -z-10" aria-hidden />
       <Nav />
 
       <main className="max-w-6xl mx-auto px-6 py-12">

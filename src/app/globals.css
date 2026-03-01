@@ -2,18 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
-:root,
-html,
-body {
+:root {
   --primary: #0ea5e9;
   --background: #0f172a;
   --foreground: #f8fafc;
+}
+
+/* RainbowKit: dark theme (default for dark mode) */
+html.dark {
   --rk-colors-modalBackdrop: transparent !important;
-  --rk-colors-modalBackground: rgb(15, 23, 42) !important;
+  --rk-colors-modalBackground: rgb(30, 41, 59) !important;
   --rk-blurs-modalOverlay: 24px !important;
 }
 
-/* Оверлей модалки RainbowKit — только размытие, без синего оттенка */
+/* RainbowKit: light theme */
+html:not(.dark) {
+  --rk-colors-modalBackdrop: transparent !important;
+  --rk-colors-modalBackground: rgb(248, 250, 252) !important;
+  --rk-blurs-modalOverlay: 24px !important;
+}
+
+/* RainbowKit modal overlay — blur only */
 ._9pm4ki3,
 .ju367vb3,
 [data-rk] ._9pm4ki3,
@@ -21,6 +30,13 @@ body {
   background: transparent !important;
   -webkit-backdrop-filter: blur(24px) !important;
   backdrop-filter: blur(24px) !important;
+}
+
+/* Dark theme: modal panels charcoal */
+html.dark [data-rk] [role="dialog"],
+html.dark [data-rk] .ju367v14,
+html.dark [data-rk] .ju367va {
+  background: rgb(30, 41, 59) !important;
 }
 
 

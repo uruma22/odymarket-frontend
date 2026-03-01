@@ -2,33 +2,49 @@
 
 import { WagmiProvider } from "wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { RainbowKitProvider, darkTheme } from "@rainbow-me/rainbowkit";
+import { RainbowKitProvider, darkTheme, lightTheme } from "@rainbow-me/rainbowkit";
 import { config } from "@/config/wagmi";
-import { ThemeProvider } from "@/contexts/ThemeContext";
+import { ThemeProvider, useTheme } from "@/contexts/ThemeContext";
 import "@rainbow-me/rainbowkit/styles.css";
 import "./globals.css";
 
 const queryClient = new QueryClient();
 
-const rainbowTheme = darkTheme({
+const darkOpts = {
   accentColor: "#0ea5e9",
   accentColorForeground: "white",
-  borderRadius: "medium",
-  overlayBlur: "large",
-});
-
-const customTheme = {
-  ...rainbowTheme,
-  colors: {
-    ...rainbowTheme.colors,
-    modalBackdrop: "transparent",
-    modalBackground: "rgb(15, 23, 42)",
-  },
-  blurs: {
-    ...rainbowTheme.blurs,
-    modalOverlay: "24px",
-  },
+  borderRadius: "medium" as const,
+  overlayBlur: "large" as const,
 };
+
+const darkCustom = {
+  ...darkTheme(darkOpts),
+  colors: {
+    ...darkTheme(darkOpts).colors,
+    modalBackdrop: "transparent",
+    modalBackground: "rgb(30, 41, 59)",
+  },
+  blurs: { ...darkTheme(darkOpts).blurs, modalOverlay: "24px" },
+};
+
+const lightCustom = {
+  ...lightTheme({ ...darkOpts, accentColorForeground: "white" }),
+  colors: {
+    ...lightTheme(darkOpts).colors,
+    modalBackdrop: "transparent",
+    modalBackground: "rgb(248, 250, 252)",
+  },
+  blurs: { ...lightTheme(darkOpts).blurs, modalOverlay: "24px" },
+};
+
+function RainbowKitThemed({ children }: { children: React.ReactNode }) {
+  const { theme } = useTheme();
+  return (
+    <RainbowKitProvider theme={theme === "dark" ? darkCustom : lightCustom}>
+      {children}
+    </RainbowKitProvider>
+  );
+}
 
 export default function RootLayout({
   children,
@@ -48,9 +64,7 @@ export default function RootLayout({
         <WagmiProvider config={config}>
           <QueryClientProvider client={queryClient}>
             <ThemeProvider>
-              <RainbowKitProvider theme={customTheme}>
-                {children}
-              </RainbowKitProvider>
+              <RainbowKitThemed>{children}</RainbowKitThemed>
             </ThemeProvider>
           </QueryClientProvider>
         </WagmiProvider>
