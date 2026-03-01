@@ -13,7 +13,8 @@ export default function MarketPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen relative flex items-center justify-center">
+        <div className="fixed inset-0 bg-background/30 backdrop-blur-xl -z-10" aria-hidden />
         <div className="text-slate-400">Loading...</div>
       </div>
     );
@@ -21,14 +22,16 @@ export default function MarketPage() {
 
   if (!market) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen relative flex items-center justify-center">
+        <div className="fixed inset-0 bg-background/30 backdrop-blur-xl -z-10" aria-hidden />
         <div className="text-slate-400">Market not found</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen relative">
+      <div className="fixed inset-0 bg-background/30 backdrop-blur-xl -z-10" aria-hidden />
       <Nav />
 
       <main className="max-w-6xl mx-auto px-6 py-12">

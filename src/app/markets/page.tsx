@@ -8,7 +8,8 @@ export default function MarketsPage() {
   const { data: markets = [], isLoading, isError, error } = useMarkets();
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen relative">
+      <div className="fixed inset-0 bg-background/30 backdrop-blur-xl -z-10" aria-hidden />
       <Nav />
 
       <main className="max-w-6xl mx-auto px-6 py-12">
