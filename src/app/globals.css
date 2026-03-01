@@ -42,13 +42,21 @@ html.dark [data-rk] .ju367va {
 
 body {
   color: var(--foreground);
-  background: url('/depiction/back.png') no-repeat center center fixed;
   background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
 }
 
-/* Light theme overrides */
+/* Dark theme: nightback.jpg */
+html.dark body {
+  background-image: url('/depiction/nightback.jpg');
+}
+
+/* Light theme: back.png */
 html:not(.dark) body {
   --foreground: #1e293b;
+  background-image: url('/depiction/back.png');
 }
 
 [data-testid="rk-connect-button"] {
