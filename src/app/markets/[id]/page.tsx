@@ -5,6 +5,7 @@ import { Nav } from "@/components/Nav";
 import { useParams } from "next/navigation";
 import { useMarket } from "@/hooks/useMarket";
 import { TradePanel } from "@/components/TradePanel";
+import { MarketChart } from "@/components/MarketChart";
 
 export default function MarketPage() {
   const params = useParams();
@@ -47,10 +48,11 @@ export default function MarketPage() {
               <h3 className="font-semibold mb-4 text-slate-900 dark:text-slate-200">Market info</h3>
               <div className="space-y-2 text-slate-600 dark:text-slate-400">
                 <p>Status: {market.status}</p>
-                <p>Expiration: {new Date(market.expiration).toLocaleString()}</p>
+                <p>Expiration: {market.expiration ? new Date(market.expiration).toLocaleString() : "—"}</p>
                 <p>Contract: {market.contractAddr}</p>
               </div>
             </div>
+            <MarketChart marketId={market.id} marketAddress={market.contractAddr} />
           </div>
 
           <div>
